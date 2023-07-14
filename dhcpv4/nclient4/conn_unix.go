@@ -11,6 +11,7 @@ package nclient4
 import (
 	"errors"
 	"io"
+	"log"
 	"net"
 
 	"github.com/mdlayher/packet"
@@ -114,6 +115,7 @@ func (upc *BroadcastRawUDPConn) ReadFrom(b []byte) (int, net.Addr, error) {
 		ipHdr = ipv4(buf.Consume(int(headerLength)))
 
 		if headerLength > protocol {
+			log.Println("Modified dhcp library is used")
 			if ipHdr.transportProtocol() != udpProtocolNumber {
 				continue
 			}
