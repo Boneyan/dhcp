@@ -115,20 +115,20 @@ func ipVersion(b []byte) int {
 
 // IsValid performs basic validation on the packet.
 func (b ipv4) isValid(pktSize int) bool {
-	log.Println("Ip header len: %s", len(b))
+	log.Printf("Ip header len: %s", len(b))
 	if len(b) < ipv4MinimumSize {
 		return false
 	}
 
 	hlen := int(b.headerLength())
-	log.Println("Ip header len(): %s", hlen)
+	log.Printf("Ip header len(): %s", hlen)
 	tlen := int(b.totalLength())
-	log.Println("Ip total len(): %s", tlen)
+	log.Printf("Ip total len(): %s", tlen)
 	if hlen < ipv4MinimumSize || hlen > tlen || tlen > pktSize {
 		return false
 	}
 
-	log.Println("Ip version: %s", ipVersion(b))
+	log.Printf("Ip version: %s", ipVersion(b))
 	if ipVersion(b) != ipv4Version {
 		return false
 	}

@@ -89,11 +89,13 @@ func (upc *BroadcastRawUDPConn) ReadFrom(b []byte) (int, net.Addr, error) {
 	udpHdrLen := udpMinimumSize
 
 	for {
+		log.Println("This is test")
 		pkt := make([]byte, ipHdrMaxLen+udpHdrLen+len(b))
 		n, _, err := upc.PacketConn.ReadFrom(pkt)
 		if err != nil {
 			return 0, nil, err
 		}
+		log.Printf("n: %s", n)
 		if n == 0 {
 			return 0, nil, io.EOF
 		}
