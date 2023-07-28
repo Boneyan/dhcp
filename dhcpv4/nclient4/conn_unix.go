@@ -101,19 +101,16 @@ func (upc *BroadcastRawUDPConn) ReadFrom(b []byte) (int, net.Addr, error) {
 		buf := uio.NewBigEndianBuffer(pkt)
 
 		ipHdr := ipv4(buf.Data())
-		headerLength := ipHdr.headerLength()
 
 		if !ipHdr.isValid(n) {
 			continue
 		}
 
-		ipHdr = ipv4(buf.Consume(int(headerLength)))
+		ipHdr = ipv4(buf.Consume(int(ipHdr.headerLength())))
 
-		if headerLength > protocol {
-			log.Println("Modified dhcp library is used")
-			if ipHdr.transportProtocol() != udpProtocolNumber {
-				continue
-			}
+		log.Println("Modified dhcp library is used")
+		if ipHdr.transportProtocol() != udpProtocolNumber {
+			continue
 		}
 
 		if !buf.Has(udpHdrLen) {
